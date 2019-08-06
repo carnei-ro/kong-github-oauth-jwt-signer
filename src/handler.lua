@@ -87,7 +87,7 @@ function plugin:access(conf)
     end
 
     local function redirect_to_auth()
-        -- google seems to accept space separated domain list in the login_hint, so use this undocumented feature.
+
         return ngx.redirect("https://github.com/login/oauth/authorize?" .. ngx.encode_args({
             client_id     = client_id,
             scope         = "user:read user:email",
@@ -164,8 +164,8 @@ function plugin:access(conf)
                 return ngx.exit(ngx.HTTP_FORBIDDEN)
             end
 
-            local write = require('pl.pretty').write
-            ngx_log(ngx_ERR, "\nToken: " .. write(token))
+            -- local write = require('pl.pretty').write
+            -- ngx_log(ngx_ERR, "\nToken: " .. write(token))
 
             local profile, profile_err = request_profile(token["access_token"])
             if not profile then
@@ -173,7 +173,7 @@ function plugin:access(conf)
                 return ngx.exit(ngx.HTTP_FORBIDDEN)
             end
 
-            ngx_log(ngx_ERR, "\nProfile: " .. write(profile))
+            -- ngx_log(ngx_ERR, "\nProfile: " .. write(profile))
 
             local claims={}
 
